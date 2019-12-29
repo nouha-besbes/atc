@@ -20,53 +20,53 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.authentication.exception.ResourceNotFoundException;
 import com.authentication.model.User;
-import com.authentication.repository.UserRepository;
+import com.authentication.repository.IUserRepository;
 
 @RestController
 @RequestMapping("/api/v1")
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
+    private IUserRepository userService;
 
     @GetMapping("/users")
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userService.findAll();
     }
 
     @GetMapping("/users/{id}")
     public ResponseEntity<User> getUsersById(@PathVariable(value = "id") Long userId) throws ResourceNotFoundException {
-        User user = userRepository.findById(userId)
+        User user = userService.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found on :: " + userId));
         return ResponseEntity.ok().body(user);
     }
 
     @PostMapping("/users")
     public User createUser(@Valid @RequestBody User user) {
-        return userRepository.save(user);
+        return userService.save(user);
     }
 
     @PutMapping("/users/{id}")
     public ResponseEntity<User> updateUser(@PathVariable(value = "id") Long userId,
             @Valid @RequestBody User userDetails) throws ResourceNotFoundException {
 
-        User user = userRepository.findById(userId)
+        User user = userService.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found on :: " + userId));
 
         user.setEmail(userDetails.getEmail());
         user.setLastName(userDetails.getLastName());
         user.setFirstName(userDetails.getFirstName());
         user.setUpdatedAt(new Date());
-        User updatedUser = userRepository.save(user);
+        User updatedUser = userService.save(user);
         return ResponseEntity.ok(updatedUser);
     }
 
     @DeleteMapping("/user/{id}")
     public Map<String, Boolean> deleteUser(@PathVariable(value = "id") Long userId) throws Exception {
-        User user = userRepository.findById(userId)
+        User user = userService.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found on :: " + userId));
 
-        userRepository.delete(user);
+        userService.delete(user);
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
         return response;
