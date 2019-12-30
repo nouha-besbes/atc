@@ -18,9 +18,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.authentication.exception.ResourceNotFoundException;
+import com.authentication.controller.exception.ResourceNotFoundException;
 import com.authentication.model.User;
 import com.authentication.repository.IUserRepository;
+import com.authentication.service.IUserService;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -29,9 +30,12 @@ public class UserController {
     @Autowired
     private IUserRepository userService;
 
+    @Autowired
+    private IUserService test;
+
     @GetMapping("/users")
     public List<User> getAllUsers() {
-        return userService.findAll();
+        return test.findAll();
     }
 
     @GetMapping("/users/{id}")

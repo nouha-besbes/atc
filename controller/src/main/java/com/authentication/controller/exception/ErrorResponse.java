@@ -1,5 +1,4 @@
-
-package com.authentication.exception;
+package com.authentication.controller.exception;
 
 import java.util.Date;
 
