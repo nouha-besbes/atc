@@ -1,6 +1,5 @@
 package com.authentication.controller;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.authentication.controller.exception.ResourceNotFoundException;
 import com.authentication.model.User;
 import com.authentication.service.IUserService;
+import com.authentication.service.dto.UserDto;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -30,35 +30,27 @@ public class UserController {
     private IUserService userService;
 
     @GetMapping("/users")
-    public List<User> getAllUsers() {
+    public List<UserDto> getAllUsers() {
         return userService.findAll();
     }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<User> getUsersById(@PathVariable(value = "id") Long userId) throws ResourceNotFoundException {
-        User user = userService.findById(userId)
+    public ResponseEntity<UserDto> getUsersById(@PathVariable(value = "id") Long userId)
+            throws ResourceNotFoundException {
+        UserDto userDto = userService.findDtoById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found on :: " + userId));
-        return ResponseEntity.ok().body(user);
+        return ResponseEntity.ok().body(userDto);
     }
 
     @PostMapping("/users")
-    public User createUser(@Valid @RequestBody User user) {
-        return userService.save(user);
+    public UserDto createUser(@Valid @RequestBody UserDto userDto) {
+        return userService.save(userDto);
     }
 
     @PutMapping("/users/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable(value = "id") Long userId,
-            @Valid @RequestBody User userDetails) throws ResourceNotFoundException {
-
-        User user = userService.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found on :: " + userId));
-
-        user.setEmail(userDetails.getEmail());
-        user.setLastName(userDetails.getLastName());
-        user.setFirstName(userDetails.getFirstName());
-        user.setUpdatedAt(new Date());
-        User updatedUser = userService.save(user);
-        return ResponseEntity.ok(updatedUser);
+    public ResponseEntity<UserDto> updateUser(@PathVariable(value = "id") Long userId,
+            @Valid @RequestBody UserDto userDetails) throws ResourceNotFoundException {
+        return ResponseEntity.ok(userService.updateUser(userDetails));
     }
 
     @DeleteMapping("/user/{id}")
