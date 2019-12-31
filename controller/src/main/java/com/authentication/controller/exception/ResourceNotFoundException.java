@@ -1,4 +1,3 @@
-
 package com.authentication.controller.exception;
 
 import org.springframework.http.HttpStatus;

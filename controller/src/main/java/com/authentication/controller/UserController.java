@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.authentication.controller.exception.ResourceNotFoundException;
 import com.authentication.model.User;
-import com.authentication.repository.IUserRepository;
 import com.authentication.service.IUserService;
 
 @RestController
@@ -28,14 +27,11 @@ import com.authentication.service.IUserService;
 public class UserController {
 
     @Autowired
-    private IUserRepository userService;
-
-    @Autowired
-    private IUserService test;
+    private IUserService userService;
 
     @GetMapping("/users")
     public List<User> getAllUsers() {
-        return test.findAll();
+        return userService.findAll();
     }
 
     @GetMapping("/users/{id}")

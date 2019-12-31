@@ -2,11 +2,6 @@ package com.authentication.controller.exception;
 
 import java.util.Date;
 
-/**
- * The type Error response.
- *
- * @author Givantha Kalansuriya
- */
 public class ErrorResponse {
 
     private Date timestamp;
