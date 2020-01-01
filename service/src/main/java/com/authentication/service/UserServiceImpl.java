@@ -43,20 +43,22 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public UserDto updateUser(UserDto userDto) {
-        Optional<UserDto> optionalUserDto = this.findDtoById(userDto.getId());
-        // .orElseThrow(() -> new ResourceNotFoundException("User not found on :: " + userId));
-
-        optionalUserDto.get().setEmail(userDto.getEmail());
-        optionalUserDto.get().setLastName(userDto.getLastName());
-        optionalUserDto.get().setFirstName(userDto.getFirstName());
-
-        return this.save(optionalUserDto.get());
+    public Optional<User> findById(Long userId) {
+        return userRepository.findById(userId);
     }
 
     @Override
-    public Optional<User> findById(Long userId) {
-        return userRepository.findById(userId);
+    public UserDto updateUser(Long userId, UserDto userDto) {
+        Optional<User> optionalUser = this.findById(userId);
+        // .orElseThrow(() -> new ResourceNotFoundException("User not found on :: " + userId));
+
+        optionalUser.get().setEmail(userDto.getEmail());
+        optionalUser.get().setLastName(userDto.getLastName());
+        optionalUser.get().setFirstName(userDto.getFirstName());
+
+        userRepository.save(optionalUser.get());
+        userDto.setId(userId);
+        return userDto;
     }
 
 }
