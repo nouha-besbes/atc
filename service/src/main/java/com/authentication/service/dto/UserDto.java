@@ -1,13 +1,20 @@
 package com.authentication.service.dto;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
 public class UserDto {
 
     private Long id;
 
+    @NotBlank(message = "firstName cannot be null")
     private String firstName;
 
+    @NotBlank(message = "lastName cannot be null")
     private String lastName;
 
+    @Email(message = "Email should be valid")
+    @NotBlank(message = "e-mail is required")
     private String email;
 
     public UserDto() {

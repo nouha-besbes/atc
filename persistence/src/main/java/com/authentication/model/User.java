@@ -4,32 +4,29 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 @Entity
-@Table(name = "user")
-@EntityListeners(AuditingEntityListener.class)
+@Table(name = "T_USER")
 public class User extends Base implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "USR_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "first_name", nullable = false)
+    @Column(name = "USR_FIRST_NAME", nullable = false)
     private String firstName;
 
-    @Column(name = "last_name", nullable = false)
+    @Column(name = "USR_LAST_NAME", nullable = false)
     private String lastName;
 
-    @Column(name = "email_address", nullable = false)
+    @Column(name = "USR_EMAIL_ADRESS", nullable = false)
     private String email;
 
     public User(Long id, String firstName, String lastName, String email) {

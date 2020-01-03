@@ -9,35 +9,37 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.LastModifiedBy;
 
 @MappedSuperclass
 public class Base {
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "CREATED_AT", nullable = false)
     private Date createdAt;
 
-    @Column(name = "created_by")
-    @CreatedBy
+    @Column(name = "CREATED_BY")
+    // @CreatedBy
     private String createdBy;
 
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "updated_at", nullable = false)
+    @Column(name = "UDATED_AT", nullable = false)
     private Date updatedAt;
 
-    @Column(name = "updated_by")
-    @LastModifiedBy
+    @Column(name = "UPDATED_BY")
+    // @LastModifiedBy
     private String updatedBy;
+
+    public Base() {
+        super();
+    }
 
     public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt() {
         this.createdAt = new Date();
     }
 
@@ -45,7 +47,7 @@ public class Base {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy() {
         this.createdBy = "me";
     }
 
@@ -53,7 +55,7 @@ public class Base {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt() {
         this.updatedAt = new Date();
     }
 
@@ -61,8 +63,14 @@ public class Base {
         return updatedBy;
     }
 
-    public void setUpdatedBy(String updatedBy) {
+    public void setUpdatedBy() {
         this.updatedBy = "me";
+    }
+
+    @Override
+    public String toString() {
+        return "Base [createdAt=" + createdAt + ", createdBy=" + createdBy + ", updatedAt=" + updatedAt + ", updatedBy="
+                + updatedBy + "]";
     }
 
 }
