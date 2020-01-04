@@ -1,26 +1,31 @@
 package com.authentication.service.dto;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
 public class UserDto {
 
     private Long id;
 
+    @NotBlank(message = "firstName cannot be null")
     private String firstName;
 
+    @NotBlank(message = "lastName cannot be null")
     private String lastName;
 
+    @Email(message = "Email should be valid")
+    @NotBlank(message = "e-mail is required")
     private String email;
 
-    private String createdBy;
+    public UserDto() {
+        super();
+    }
 
-    private String updatedBy;
-
-    public UserDto(String firstName, String lastName, String email, String createdBy, String updatedBy) {
+    public UserDto(String firstName, String lastName, String email) {
         super();
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.createdBy = createdBy;
-        this.updatedBy = updatedBy;
     }
 
     public Long getId() {
@@ -53,22 +58,6 @@ public class UserDto {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public String getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy;
     }
 
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.authentication.model.User;
 import com.authentication.repository.IUserRepository;
 import com.authentication.service.dto.UserDto;
+import com.authentication.service.exception.ResourceNotFoundException;
 
 @Service
 public class UserServiceImpl implements IUserService {
@@ -22,14 +23,17 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public List<UserDto> findAll() {
-
         List<User> users = userRepository.findAll();
         return users.stream().map(user -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
     }
 
     @Override
-    public Optional<UserDto> findDtoById(Long userId) {
-        return Optional.of(modelMapper.map(userRepository.findById(userId).get(), UserDto.class));
+    public Optional<UserDto> findDtoById(Long userId) throws ResourceNotFoundException {
+        Optional<User> user = userRepository.findById(userId);
+        if (!user.isPresent()) {
+            throw new ResourceNotFoundException("User not found" + userId);
+        }
+        return Optional.of(modelMapper.map(user.get(), UserDto.class));
     }
 
     @Override
@@ -43,20 +47,22 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public UserDto updateUser(UserDto userDto) {
-        Optional<UserDto> optionalUserDto = this.findDtoById(userDto.getId());
-        // .orElseThrow(() -> new ResourceNotFoundException("User not found on :: " + userId));
-
-        optionalUserDto.get().setEmail(userDto.getEmail());
-        optionalUserDto.get().setLastName(userDto.getLastName());
-        optionalUserDto.get().setFirstName(userDto.getFirstName());
-
-        return this.save(optionalUserDto.get());
+    public Optional<User> findById(Long userId) {
+        return userRepository.findById(userId);
     }
 
     @Override
-    public Optional<User> findById(Long userId) {
-        return userRepository.findById(userId);
+    public UserDto updateUser(Long userId, UserDto userDto) {
+        Optional<User> optionalUser = this.findById(userId);
+        // .orElseThrow(() -> new ResourceNotFoundException("User not found on :: " + userId));
+
+        optionalUser.get().setEmail(userDto.getEmail());
+        optionalUser.get().setLastName(userDto.getLastName());
+        optionalUser.get().setFirstName(userDto.getFirstName());
+
+        userRepository.save(optionalUser.get());
+        userDto.setId(userId);
+        return userDto;
     }
 
 }

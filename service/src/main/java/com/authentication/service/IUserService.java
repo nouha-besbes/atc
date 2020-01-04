@@ -5,18 +5,19 @@ import java.util.Optional;
 
 import com.authentication.model.User;
 import com.authentication.service.dto.UserDto;
+import com.authentication.service.exception.ResourceNotFoundException;
 
 public interface IUserService {
 
     List<UserDto> findAll();
 
-    Optional<UserDto> findDtoById(Long userId);
+    Optional<UserDto> findDtoById(Long userId) throws ResourceNotFoundException;
 
     Optional<User> findById(Long userId);
 
     UserDto save(UserDto userDto);
 
-    UserDto updateUser(UserDto userDto);
+    UserDto updateUser(Long userId, UserDto userDto);
 
     void delete(User user);
 

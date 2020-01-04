@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.authentication.controller.exception.ResourceNotFoundException;
 import com.authentication.model.User;
 import com.authentication.service.IUserService;
 import com.authentication.service.dto.UserDto;
+import com.authentication.service.exception.ResourceNotFoundException;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -37,9 +37,7 @@ public class UserController {
     @GetMapping("/users/{id}")
     public ResponseEntity<UserDto> getUsersById(@PathVariable(value = "id") Long userId)
             throws ResourceNotFoundException {
-        UserDto userDto = userService.findDtoById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found on :: " + userId));
-        return ResponseEntity.ok().body(userDto);
+        return ResponseEntity.ok().body(userService.findDtoById(userId).get());
     }
 
     @PostMapping("/users")
@@ -50,7 +48,7 @@ public class UserController {
     @PutMapping("/users/{id}")
     public ResponseEntity<UserDto> updateUser(@PathVariable(value = "id") Long userId,
             @Valid @RequestBody UserDto userDetails) throws ResourceNotFoundException {
-        return ResponseEntity.ok(userService.updateUser(userDetails));
+        return ResponseEntity.ok(userService.updateUser(userId, userDetails));
     }
 
     @DeleteMapping("/user/{id}")
