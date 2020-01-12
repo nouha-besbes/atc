@@ -4,11 +4,16 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.authentication.utils.DeviceType;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -38,7 +43,15 @@ public class Device extends Base implements Serializable {
     @Column(name = "DEV_IP_ADRESS", nullable = false)
     private String ipAdress;
 
-    @OneToOne(mappedBy = "device")
+    @Column(name = "DEV_PORT", nullable = false)
+    private String port;
+
+    @Column(name = "DEV_DEVICE_TYPE", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private DeviceType deviceType;
+
+    @OneToOne()
+    @JoinColumn(name = "DEV_AFFILIATE_ID", referencedColumnName = "AFF_ID")
     private Affiliate affiliate;
 
 }

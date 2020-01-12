@@ -46,7 +46,8 @@ public class UserServiceImpl implements IUserService {
     public UserDto updateUser(Long userId, UserDto userDto) throws ResourceNotFoundException {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found on :: " + userId));
-        user = modelMapper.map(userDto, User.class);
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
         user.setId(userId);
         userRepository.save(user);
         userDto.setId(userId);

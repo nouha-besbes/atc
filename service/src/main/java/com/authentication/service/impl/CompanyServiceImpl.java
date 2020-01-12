@@ -33,7 +33,7 @@ public class CompanyServiceImpl implements ICompanyService {
     public CompanyDto updateCompany(Long companyId, @Valid CompanyDto companyDetails) throws ResourceNotFoundException {
         Company company = companyRepository.findById(companyId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found on :: " + companyId));
-        company = modelMapper.map(companyDetails, Company.class);
+        company.setName(companyDetails.getName());
         company.setId(companyId);
         companyRepository.save(company);
         companyDetails.setId(companyId);
@@ -54,8 +54,8 @@ public class CompanyServiceImpl implements ICompanyService {
 
     @Override
     public List<CompanyDto> findAll() {
-        List<Company> Companys = companyRepository.findAll();
-        return Companys.stream().map(company -> modelMapper.map(company, CompanyDto.class))
+        List<Company> companys = companyRepository.findAll();
+        return companys.stream().map(company -> modelMapper.map(company, CompanyDto.class))
                 .collect(Collectors.toList());
     }
 

@@ -3,7 +3,6 @@ package com.authentication.model;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -50,7 +49,6 @@ public class Affiliate extends Base implements Serializable {
     @OneToMany(mappedBy = "affiliate")
     private List<User> users;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "AFF_DEVICE_ID", referencedColumnName = "DEV_ID")
+    @OneToOne(mappedBy = "affiliate")
     private Device device;
 }
