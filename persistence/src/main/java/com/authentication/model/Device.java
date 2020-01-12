@@ -1,18 +1,19 @@
 package com.authentication.model;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.authentication.utils.DeviceType;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -27,28 +28,30 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@ToString(exclude = "users")
-@Table(name = "T_AFFILIATE")
-public class Affiliate extends Base implements Serializable {
+@ToString
+@Table(name = "T_DEVICE")
+public class Device extends Base implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "AFF_ID")
+    @Column(name = "DEV_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Column(name = "AFF_NAME", nullable = false)
-    private String name;
+    @Column(name = "DEV_IP_ADRESS", nullable = false)
+    private String ipAdress;
 
-    @ManyToOne
-    @JoinColumn(name = "AFF_COMPANY_ID")
-    private Company company;
+    @Column(name = "DEV_PORT", nullable = false)
+    private String port;
 
-    @OneToMany(mappedBy = "affiliate")
-    private List<User> users;
+    @Column(name = "DEV_DEVICE_TYPE", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private DeviceType deviceType;
 
-    @OneToOne(mappedBy = "affiliate")
-    private Device device;
+    @OneToOne()
+    @JoinColumn(name = "DEV_AFFILIATE_ID", referencedColumnName = "AFF_ID")
+    private Affiliate affiliate;
+
 }

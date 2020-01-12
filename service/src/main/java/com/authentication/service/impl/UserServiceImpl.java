@@ -1,4 +1,4 @@
-package com.authentication.service;
+package com.authentication.service.impl;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.authentication.model.User;
 import com.authentication.repository.IUserRepository;
+import com.authentication.service.IUserService;
 import com.authentication.service.dto.UserDto;
 import com.authentication.service.exception.ResourceNotFoundException;
 
@@ -42,27 +43,24 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public void delete(User user) {
-        userRepository.delete(user);
-    }
-
-    @Override
-    public Optional<User> findById(Long userId) {
-        return userRepository.findById(userId);
-    }
-
-    @Override
-    public UserDto updateUser(Long userId, UserDto userDto) {
-        Optional<User> optionalUser = this.findById(userId);
-        // .orElseThrow(() -> new ResourceNotFoundException("User not found on :: " + userId));
-
-        optionalUser.get().setEmail(userDto.getEmail());
-        optionalUser.get().setLastName(userDto.getLastName());
-        optionalUser.get().setFirstName(userDto.getFirstName());
-
-        userRepository.save(optionalUser.get());
+    public UserDto updateUser(Long userId, UserDto userDto) throws ResourceNotFoundException {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found on :: " + userId));
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setId(userId);
+        userRepository.save(user);
         userDto.setId(userId);
         return userDto;
+    }
+
+    @Override
+    public void deleteById(Long userId) throws ResourceNotFoundException {
+        Optional.of(userRepository.existsById(userId))
+                .orElseThrow(() -> new ResourceNotFoundException("User not found on :: " + userId));
+
+        userRepository.deleteById(userId);
+
     }
 
 }

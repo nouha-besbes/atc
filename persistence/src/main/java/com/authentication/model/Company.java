@@ -36,7 +36,7 @@ public class Company extends Base implements Serializable {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Column(name = "CMP_NAME", nullable = false)
+    @Column(name = "CMP_NAME", nullable = false, unique = true)
     private String name;
 
     @OneToMany(mappedBy = "company")
