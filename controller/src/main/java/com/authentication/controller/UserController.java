@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.authentication.model.User;
 import com.authentication.service.IUserService;
 import com.authentication.service.dto.UserDto;
 import com.authentication.service.exception.ResourceNotFoundException;
@@ -53,10 +52,8 @@ public class UserController {
 
     @DeleteMapping("/user/{id}")
     public Map<String, Boolean> deleteUser(@PathVariable(value = "id") Long userId) throws Exception {
-        User user = userService.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found on :: " + userId));
 
-        userService.delete(user);
+        userService.deleteById(userId);
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
         return response;

@@ -3,7 +3,6 @@ package com.authentication.service;
 import java.util.List;
 import java.util.Optional;
 
-import com.authentication.model.User;
 import com.authentication.service.dto.UserDto;
 import com.authentication.service.exception.ResourceNotFoundException;
 
@@ -13,12 +12,10 @@ public interface IUserService {
 
     Optional<UserDto> findDtoById(Long userId) throws ResourceNotFoundException;
 
-    Optional<User> findById(Long userId);
-
     UserDto save(UserDto userDto);
 
-    UserDto updateUser(Long userId, UserDto userDto);
+    UserDto updateUser(Long userId, UserDto userDto) throws ResourceNotFoundException;
 
-    void delete(User user);
+    void deleteById(Long userId) throws ResourceNotFoundException;
 
 }

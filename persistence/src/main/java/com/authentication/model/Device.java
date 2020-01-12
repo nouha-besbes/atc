@@ -1,14 +1,13 @@
 package com.authentication.model;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -24,22 +23,22 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@ToString(exclude = "affiliates")
-@Table(name = "T_COMPANY")
-public class Company extends Base implements Serializable {
+@ToString
+@Table(name = "T_DEVICE")
+public class Device extends Base implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "CMP_ID")
+    @Column(name = "DEV_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Column(name = "CMP_NAME", nullable = false, unique = true)
-    private String name;
+    @Column(name = "DEV_IP_ADRESS", nullable = false)
+    private String ipAdress;
 
-    @OneToMany(mappedBy = "company")
-    private List<Affiliate> affiliates;
+    @OneToOne(mappedBy = "device")
+    private Affiliate affiliate;
 
 }
