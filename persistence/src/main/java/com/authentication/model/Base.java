@@ -10,6 +10,17 @@ import javax.persistence.TemporalType;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @MappedSuperclass
 public class Base {
 
@@ -18,59 +29,9 @@ public class Base {
     @Column(name = "CREATED_AT", nullable = false)
     private Date createdAt;
 
-    @Column(name = "CREATED_BY")
-    // @CreatedBy
-    private String createdBy;
-
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "UDATED_AT", nullable = false)
     private Date updatedAt;
-
-    @Column(name = "UPDATED_BY")
-    // @LastModifiedBy
-    private String updatedBy;
-
-    public Base() {
-        super();
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt() {
-        this.createdAt = new Date();
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy() {
-        this.createdBy = "me";
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt() {
-        this.updatedAt = new Date();
-    }
-
-    public String getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy() {
-        this.updatedBy = "me";
-    }
-
-    @Override
-    public String toString() {
-        return "Base [createdAt=" + createdAt + ", createdBy=" + createdBy + ", updatedAt=" + updatedAt + ", updatedBy="
-                + updatedBy + "]";
-    }
 
 }

@@ -26,43 +26,26 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@ToString(exclude = "attendences")
-@Table(name = "T_USER")
-public class User extends Base implements Serializable {
+@ToString(exclude = "users")
+@Table(name = "T_AFFILIATE")
+public class Affiliate extends Base implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "USR_ID")
+    @Column(name = "AFF_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Column(name = "USR_FIRST_NAME", nullable = false)
-    private String firstName;
-
-    @Column(name = "USR_LAST_NAME", nullable = false)
-    private String lastName;
-
-    @Column(name = "USR_EMAIL_ADRESS", nullable = false)
-    private String email;
-
-    @Column(name = "USR_PASSWORD", nullable = false)
-    private String password;
+    @Column(name = "AFF_NAME", nullable = false)
+    private String name;
 
     @ManyToOne
-    @JoinColumn(name = "USR_AFFILIATE_ID")
-    private Affiliate affiliate;
+    @JoinColumn(name = "AFF_COMPANY_ID")
+    private Company company;
 
-    @OneToMany(mappedBy = "user")
-    private List<Attendance> attendences;
-
-    public User(Long id, String firstName, String lastName, String email) {
-        super();
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-    }
+    @OneToMany(mappedBy = "affiliate")
+    private List<User> users;
 
 }
