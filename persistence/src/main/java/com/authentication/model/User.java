@@ -50,6 +50,12 @@ public class User extends Base implements Serializable {
     @Column(name = "USR_PASSWORD", nullable = false)
     private String password;
 
+    @Column(name = "USR_FINGER_PRINT", nullable = true)
+    private String fingerPrint;
+
+    @Column(name = "USR_CARD_REF", nullable = true)
+    private String cardRef;
+
     @ManyToOne
     @JoinColumn(name = "USR_AFFILIATE_ID")
     private Affiliate affiliate;

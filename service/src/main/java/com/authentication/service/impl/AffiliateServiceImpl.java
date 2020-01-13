@@ -57,7 +57,7 @@ public class AffiliateServiceImpl implements IAffiliateService {
 
     @Override
     public AffiliateDto findDtoById(Long affiliateId) {
-        return modelMapper.map(affiliateRepository.findById(affiliateId), AffiliateDto.class);
+        return modelMapper.map(affiliateRepository.findById(affiliateId).get(), AffiliateDto.class);
     }
 
     @Override

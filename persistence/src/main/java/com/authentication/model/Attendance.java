@@ -46,6 +46,9 @@ public class Attendance extends Base implements Serializable {
     @Column(name = "ATD_DATE", nullable = false)
     private Date date;
 
+    @Column(name = "ATD_IS_DELETED", nullable = false)
+    private boolean isDeleted;
+
     @ManyToOne
     @JoinColumn(name = "ATD_USER_ID")
     private User user;
