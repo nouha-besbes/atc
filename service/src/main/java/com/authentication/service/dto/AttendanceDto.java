@@ -1,8 +1,8 @@
 package com.authentication.service.dto;
 
-import javax.validation.constraints.NotBlank;
+import java.util.Date;
 
-import com.authentication.service.annotation.UniqueCompany;
+import javax.validation.constraints.NotBlank;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -15,13 +15,18 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class CompanyDto {
+public class AttendanceDto {
 
     @EqualsAndHashCode.Include
     private Long id;
 
     @NotBlank(message = "name cannot be null")
-    @UniqueCompany
     private String name;
+
+    private Date date;
+
+    private boolean isDeleted;
+
+    private UserDto userDto;
 
 }

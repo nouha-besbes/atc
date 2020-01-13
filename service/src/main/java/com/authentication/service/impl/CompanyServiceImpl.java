@@ -42,7 +42,7 @@ public class CompanyServiceImpl implements ICompanyService {
 
     @Override
     public CompanyDto findDtoById(Long companyId) {
-        return modelMapper.map(companyRepository.findById(companyId), CompanyDto.class);
+        return modelMapper.map(companyRepository.findById(companyId).get(), CompanyDto.class);
     }
 
     @Override

@@ -59,7 +59,7 @@ public class DeviceServiceImpl implements IDeviceService {
 
     @Override
     public DeviceDto findDtoById(Long deviceId) {
-        return modelMapper.map(deviceRepository.findById(deviceId), DeviceDto.class);
+        return modelMapper.map(deviceRepository.findById(deviceId).get(), DeviceDto.class);
     }
 
     @Override
