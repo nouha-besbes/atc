@@ -2,6 +2,8 @@ package com.authentication.service.dto;
 
 import javax.validation.constraints.NotBlank;
 
+import com.authentication.service.annotation.UniqueAffiliate;
+
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -19,6 +21,7 @@ public class AffiliateDto {
     private Long id;
 
     @NotBlank(message = "name cannot be null")
+    @UniqueAffiliate
     private String name;
 
     private CompanyDto companyDto;

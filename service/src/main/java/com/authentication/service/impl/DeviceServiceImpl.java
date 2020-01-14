@@ -49,7 +49,7 @@ public class DeviceServiceImpl implements IDeviceService {
 
         device.setDeviceType(deviceDetails.getDeviceType());
         device.setIpAdress(deviceDetails.getIpAdress());
-        device.setPort(deviceDetails.getPort());
+        device.setPort(Integer.valueOf(deviceDetails.getPort()));
         device.setId(deviceId);
         device.setAffiliate(affiliate);
         deviceRepository.save(device);
