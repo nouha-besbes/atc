@@ -1,7 +1,6 @@
 package com.authentication.service.impl;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -32,7 +31,7 @@ public class CompanyServiceImpl implements ICompanyService {
     @Override
     public CompanyDto updateCompany(Long companyId, @Valid CompanyDto companyDetails) throws ResourceNotFoundException {
         Company company = companyRepository.findById(companyId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found on :: " + companyId));
+                .orElseThrow(() -> new ResourceNotFoundException("Company not found on :: " + companyId));
         company.setName(companyDetails.getName());
         company.setId(companyId);
         companyRepository.save(company);
@@ -41,14 +40,17 @@ public class CompanyServiceImpl implements ICompanyService {
     }
 
     @Override
-    public CompanyDto findDtoById(Long companyId) {
-        return modelMapper.map(companyRepository.findById(companyId).get(), CompanyDto.class);
+    public CompanyDto findDtoById(Long companyId) throws ResourceNotFoundException {
+        Company company = companyRepository.findById(companyId)
+                .orElseThrow(() -> new ResourceNotFoundException("Company not found on :: " + companyId));
+        return modelMapper.map(company, CompanyDto.class);
     }
 
     @Override
     public void deleteById(Long companyId) throws ResourceNotFoundException {
-        Optional.of(companyRepository.existsById(companyId))
-                .orElseThrow(() -> new ResourceNotFoundException("Company not found on :: " + companyId));
+        if (!companyRepository.existsById(companyId)) {
+            throw new ResourceNotFoundException("Company not found on :: " + companyId);
+        }
         companyRepository.deleteById(companyId);
     }
 

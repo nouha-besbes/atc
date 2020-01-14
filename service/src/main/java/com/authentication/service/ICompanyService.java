@@ -13,7 +13,7 @@ public interface ICompanyService {
 
     CompanyDto updateCompany(Long companyId, @Valid CompanyDto companyDetails) throws ResourceNotFoundException;
 
-    CompanyDto findDtoById(Long companyId);
+    CompanyDto findDtoById(Long companyId) throws ResourceNotFoundException;
 
     void deleteById(Long companyId) throws ResourceNotFoundException;
 
