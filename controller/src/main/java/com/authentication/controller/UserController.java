@@ -47,12 +47,11 @@ public class UserController {
     @PutMapping("/users/{id}")
     public ResponseEntity<UserDto> updateUser(@PathVariable(value = "id") Long userId,
             @Valid @RequestBody UserDto userDetails) throws ResourceNotFoundException {
-        return ResponseEntity.ok(userService.updateUser(userId, userDetails));
+        return ResponseEntity.ok(userService.update(userId, userDetails));
     }
 
     @DeleteMapping("/user/{id}")
     public Map<String, Boolean> deleteUser(@PathVariable(value = "id") Long userId) throws Exception {
-
         userService.deleteById(userId);
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);

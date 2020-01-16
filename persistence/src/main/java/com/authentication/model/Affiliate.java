@@ -39,7 +39,7 @@ public class Affiliate extends Base implements Serializable {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Column(name = "AFF_NAME", nullable = false)
+    @Column(name = "AFF_NAME", nullable = false, unique = true)
     private String name;
 
     @ManyToOne

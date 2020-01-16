@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.authentication.utils.DeviceType;
 
@@ -29,7 +30,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @ToString
-@Table(name = "T_DEVICE")
+@Table(name = "T_DEVICE", uniqueConstraints = { @UniqueConstraint(columnNames = { "DEV_IP_ADRESS", "DEV_PORT" }) })
 public class Device extends Base implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,7 +45,7 @@ public class Device extends Base implements Serializable {
     private String ipAdress;
 
     @Column(name = "DEV_PORT", nullable = false)
-    private String port;
+    private Integer port;
 
     @Column(name = "DEV_DEVICE_TYPE", nullable = false)
     @Enumerated(EnumType.STRING)

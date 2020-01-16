@@ -37,7 +37,7 @@ public class AttendanceController {
     @PutMapping("/attendances/{id}")
     public ResponseEntity<AttendanceDto> updateAttendance(@PathVariable(value = "id") Long attendanceId,
             @Valid @RequestBody AttendanceDto attendanceDetails) throws ResourceNotFoundException {
-        return ResponseEntity.ok(attendanceService.updateAttendance(attendanceId, attendanceDetails));
+        return ResponseEntity.ok(attendanceService.update(attendanceId, attendanceDetails));
     }
 
     @GetMapping("/attendances/{id}")

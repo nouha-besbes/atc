@@ -2,6 +2,7 @@ package com.authentication.service.dto;
 
 import javax.validation.constraints.NotBlank;
 
+import com.authentication.service.annotation.UniqueDeviceIpAdressAndPort;
 import com.authentication.utils.DeviceType;
 
 import lombok.AllArgsConstructor;
@@ -15,6 +16,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@UniqueDeviceIpAdressAndPort(ipAdressField = "ipAdress", portField = "port")
 public class DeviceDto {
 
     @EqualsAndHashCode.Include
@@ -26,9 +28,8 @@ public class DeviceDto {
     @NotBlank(message = "port cannot be null")
     private String port;
 
-    @NotBlank(message = "deviceType cannot be null")
     private DeviceType deviceType;
 
-    private AffiliateDto affiliateDto;
+    private AffiliateDto affiliate;
 
 }

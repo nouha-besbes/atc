@@ -3,8 +3,20 @@ package com.authentication.service.dto;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class UserDto {
 
+    @EqualsAndHashCode.Include
     private Long id;
 
     @NotBlank(message = "firstName cannot be null")
@@ -17,47 +29,7 @@ public class UserDto {
     @NotBlank(message = "e-mail is required")
     private String email;
 
-    public UserDto() {
-        super();
-    }
-
-    public UserDto(String firstName, String lastName, String email) {
-        super();
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    @NotBlank(message = "password is required")
+    private String password;
 
 }
