@@ -1,4 +1,3 @@
 FROM anapsix/alpine-java:8
-ADD ./target/controller-0.0.1-SNAPSHOT.jar controller-0.0.1-SNAPSHOT.jar
 
-ENTRYPOINT ["java","-jar","controller-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java","-jar","/home/runner/work/authentication/authentication/controller/target/controller-0.0.1-SNAPSHOT.jar"]
