@@ -11,7 +11,7 @@ services:
     networks:
       app_net:
         ipv4_address: 10.0.70.2
-  cho-process-tracking-itg:
+  act-test:
     container_name: act
     build: .
     ports:
