@@ -1,7 +1,6 @@
 package com.authentication.service.impl;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -16,35 +15,41 @@ import com.authentication.repository.IAttendanceRepository;
 import com.authentication.repository.IUserRepository;
 import com.authentication.service.IAttendanceService;
 import com.authentication.service.dto.AttendanceDto;
+import com.authentication.service.exception.MethodNotAllowedException;
 import com.authentication.service.exception.ResourceNotFoundException;
 
 @Service
 public class AttendanceServiceImpl implements IAttendanceService {
 
-    @Autowired
-    private IAttendanceRepository attendanceRepository;
+    private final IAttendanceRepository attendanceRepository;
 
-    @Autowired
-    private IUserRepository userRepository;
+    private final IUserRepository userRepository;
 
     private ModelMapper modelMapper = new ModelMapper();
+
+    @Autowired
+    public AttendanceServiceImpl(IAttendanceRepository attendanceRepository, IUserRepository userRepository) {
+        super();
+        this.attendanceRepository = attendanceRepository;
+        this.userRepository = userRepository;
+    }
 
     @Override
     public AttendanceDto save(@Valid AttendanceDto attendanceDto) throws ResourceNotFoundException {
         Attendance attendance = modelMapper.map(attendanceDto, Attendance.class);
-        User user = userRepository.findById(attendanceDto.getUserDto().getId()).orElseThrow(
-                () -> new ResourceNotFoundException("User not found on :: " + attendanceDto.getUserDto().getId()));
+        User user = userRepository.findById(attendanceDto.getUser().getId()).orElseThrow(
+                () -> new ResourceNotFoundException("User not found on :: " + attendanceDto.getUser().getId()));
         attendance.setUser(user);
         return modelMapper.map(attendanceRepository.save(attendance), AttendanceDto.class);
     }
 
     @Override
-    public AttendanceDto updateAttendance(Long attendanceId, @Valid AttendanceDto attendanceDetails)
+    public AttendanceDto update(Long attendanceId, @Valid AttendanceDto attendanceDetails)
             throws ResourceNotFoundException {
         Attendance attendance = attendanceRepository.findById(attendanceId)
                 .orElseThrow(() -> new ResourceNotFoundException("Attendance not found on :: " + attendanceId));
-        User user = userRepository.findById(attendanceDetails.getUserDto().getId()).orElseThrow(
-                () -> new ResourceNotFoundException("User not found on :: " + attendanceDetails.getUserDto().getId()));
+        User user = userRepository.findById(attendanceDetails.getUser().getId()).orElseThrow(
+                () -> new ResourceNotFoundException("User not found on :: " + attendanceDetails.getUser().getId()));
 
         attendance.setId(attendanceId);
         attendance.setDate(attendanceDetails.getDate());
@@ -60,9 +65,13 @@ public class AttendanceServiceImpl implements IAttendanceService {
     }
 
     @Override
-    public void deleteById(Long attendanceId) throws ResourceNotFoundException {
-        Optional.of(attendanceRepository.existsById(attendanceId))
-                .orElseThrow(() -> new ResourceNotFoundException("Attendance not found on :: " + attendanceId));
+    public void deleteById(Long attendanceId) throws ResourceNotFoundException, MethodNotAllowedException {
+        if (!attendanceRepository.existsById(attendanceId)) {
+            throw new ResourceNotFoundException("Attendance not found on :: " + attendanceId);
+        }
+        if (userRepository.existsByAttendanceId(attendanceId)) {
+            throw new MethodNotAllowedException("User associated on :: " + attendanceId);
+        }
         attendanceRepository.deleteById(attendanceId);
     }
 

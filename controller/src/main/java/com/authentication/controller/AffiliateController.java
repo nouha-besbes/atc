@@ -37,7 +37,7 @@ public class AffiliateController {
     @PutMapping("/affiliates/{id}")
     public ResponseEntity<AffiliateDto> updateAffiliate(@PathVariable(value = "id") Long affiliateId,
             @Valid @RequestBody AffiliateDto affiliateDetails) throws ResourceNotFoundException {
-        return ResponseEntity.ok(affiliateService.updateAffiliate(affiliateId, affiliateDetails));
+        return ResponseEntity.ok(affiliateService.update(affiliateId, affiliateDetails));
     }
 
     @GetMapping("/affiliates/{id}")

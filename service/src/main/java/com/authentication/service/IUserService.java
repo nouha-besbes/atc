@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.authentication.service.dto.UserDto;
+import com.authentication.service.exception.MethodNotAllowedException;
 import com.authentication.service.exception.ResourceNotFoundException;
 
 public interface IUserService {
@@ -14,8 +15,8 @@ public interface IUserService {
 
     UserDto save(UserDto userDto);
 
-    UserDto updateUser(Long userId, UserDto userDto) throws ResourceNotFoundException;
+    UserDto update(Long userId, UserDto userDto) throws ResourceNotFoundException;
 
-    void deleteById(Long userId) throws ResourceNotFoundException;
+    void deleteById(Long userId) throws ResourceNotFoundException, MethodNotAllowedException;
 
 }

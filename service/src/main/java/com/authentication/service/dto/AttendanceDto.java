@@ -2,7 +2,8 @@ package com.authentication.service.dto;
 
 import java.util.Date;
 
-import javax.validation.constraints.NotBlank;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -20,13 +21,11 @@ public class AttendanceDto {
     @EqualsAndHashCode.Include
     private Long id;
 
-    @NotBlank(message = "name cannot be null")
-    private String name;
-
+    @DateTimeFormat(iso = ISO.DATE)
     private Date date;
 
     private boolean isDeleted;
 
-    private UserDto userDto;
+    private UserDto user;
 
 }

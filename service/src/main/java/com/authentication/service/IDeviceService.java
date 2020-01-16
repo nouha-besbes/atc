@@ -11,7 +11,7 @@ public interface IDeviceService {
 
     DeviceDto save(@Valid DeviceDto deviceDto) throws ResourceNotFoundException;
 
-    DeviceDto updateDevice(Long deviceId, @Valid DeviceDto deviceDto) throws ResourceNotFoundException;
+    DeviceDto update(Long deviceId, @Valid DeviceDto deviceDto) throws ResourceNotFoundException;
 
     DeviceDto findDtoById(Long deviceId);
 

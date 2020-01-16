@@ -36,7 +36,7 @@ public class DeviceController {
     @PutMapping("/devices/{id}")
     public ResponseEntity<DeviceDto> updateDevice(@PathVariable(value = "id") Long deviceId,
             @Valid @RequestBody DeviceDto deviceDetails) throws ResourceNotFoundException {
-        return ResponseEntity.ok(deviceService.updateDevice(deviceId, deviceDetails));
+        return ResponseEntity.ok(deviceService.update(deviceId, deviceDetails));
     }
 
     @GetMapping("/devices/{id}")

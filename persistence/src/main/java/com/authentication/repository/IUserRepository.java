@@ -4,4 +4,6 @@ import com.authentication.model.User;
 
 public interface IUserRepository extends IBaseRepository<User, Long> {
 
+    boolean existsByAttendanceId(Long attendanceId);
+
 }

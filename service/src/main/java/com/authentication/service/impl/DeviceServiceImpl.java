@@ -1,7 +1,6 @@
 package com.authentication.service.impl;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.validation.Valid;
@@ -32,20 +31,18 @@ public class DeviceServiceImpl implements IDeviceService {
     @Override
     public DeviceDto save(@Valid DeviceDto deviceDto) throws ResourceNotFoundException {
         Device device = modelMapper.map(deviceDto, Device.class);
-        Affiliate affiliate = affiliateRepository.findById(deviceDto.getAffiliateDto().getId())
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Affiliate not found on :: " + deviceDto.getAffiliateDto().getId()));
+        Affiliate affiliate = affiliateRepository.findById(deviceDto.getAffiliate().getId()).orElseThrow(
+                () -> new ResourceNotFoundException("Affiliate not found on :: " + deviceDto.getAffiliate().getId()));
         device.setAffiliate(affiliate);
         return modelMapper.map(deviceRepository.save(device), DeviceDto.class);
     }
 
     @Override
-    public DeviceDto updateDevice(Long deviceId, @Valid DeviceDto deviceDetails) throws ResourceNotFoundException {
+    public DeviceDto update(Long deviceId, @Valid DeviceDto deviceDetails) throws ResourceNotFoundException {
         Device device = deviceRepository.findById(deviceId)
                 .orElseThrow(() -> new ResourceNotFoundException("Device not found on :: " + deviceId));
-        Affiliate affiliate = affiliateRepository.findById(deviceDetails.getAffiliateDto().getId())
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Company not found on :: " + deviceDetails.getAffiliateDto().getId()));
+        Affiliate affiliate = affiliateRepository.findById(deviceDetails.getAffiliate().getId()).orElseThrow(
+                () -> new ResourceNotFoundException("Company not found on :: " + deviceDetails.getAffiliate().getId()));
 
         device.setDeviceType(deviceDetails.getDeviceType());
         device.setIpAdress(deviceDetails.getIpAdress());
@@ -64,8 +61,9 @@ public class DeviceServiceImpl implements IDeviceService {
 
     @Override
     public void deleteById(Long deviceId) throws ResourceNotFoundException {
-        Optional.of(deviceRepository.existsById(deviceId))
-                .orElseThrow(() -> new ResourceNotFoundException("device not found on :: " + deviceId));
+        if (!deviceRepository.existsById(deviceId)) {
+            throw new ResourceNotFoundException("device not found on :: " + deviceId);
+        }
         deviceRepository.deleteById(deviceId);
     }
 

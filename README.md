@@ -39,9 +39,11 @@ The swagger documentation at <http://localhost:8080/swagger-ui.html>
 
 The app defines following CRUD APIs.
 
-Company 
-
-Affiliate
+Create Company 
+Create Affiliate with company
+Create Device with Affiliate
+Create User with Affiliate
+Create Attendance with User
 
 
 

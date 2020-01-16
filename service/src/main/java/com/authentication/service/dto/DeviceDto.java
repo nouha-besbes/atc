@@ -30,6 +30,6 @@ public class DeviceDto {
 
     private DeviceType deviceType;
 
-    private AffiliateDto affiliateDto;
+    private AffiliateDto affiliate;
 
 }

@@ -1,6 +1,7 @@
 package com.authentication.service.dto;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import com.authentication.service.annotation.UniqueCompany;
 
@@ -21,6 +22,7 @@ public class CompanyDto {
     private Long id;
 
     @NotBlank(message = "name cannot be null")
+    @Size(max = 64)
     @UniqueCompany
     private String name;
 

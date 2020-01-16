@@ -1,6 +1,7 @@
 package com.authentication.service.dto;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import com.authentication.service.annotation.UniqueAffiliate;
 
@@ -21,9 +22,10 @@ public class AffiliateDto {
     private Long id;
 
     @NotBlank(message = "name cannot be null")
+    @Size(max = 64)
     @UniqueAffiliate
     private String name;
 
-    private CompanyDto companyDto;
+    private CompanyDto company;
 
 }

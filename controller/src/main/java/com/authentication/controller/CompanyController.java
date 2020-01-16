@@ -36,7 +36,7 @@ public class CompanyController {
     @PutMapping("/companys/{id}")
     public ResponseEntity<CompanyDto> updateCompany(@PathVariable(value = "id") Long companyId,
             @Valid @RequestBody CompanyDto companyDetails) throws ResourceNotFoundException {
-        return ResponseEntity.ok(companyService.updateCompany(companyId, companyDetails));
+        return ResponseEntity.ok(companyService.update(companyId, companyDetails));
     }
 
     @GetMapping("/companys/{id}")

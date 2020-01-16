@@ -10,18 +10,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.authentication.model.Company;
+import com.authentication.repository.IAffiliateRepository;
 import com.authentication.repository.ICompanyRepository;
 import com.authentication.service.ICompanyService;
 import com.authentication.service.dto.CompanyDto;
+import com.authentication.service.exception.MethodNotAllowedException;
 import com.authentication.service.exception.ResourceNotFoundException;
 
 @Service
 public class CompanyServiceImpl implements ICompanyService {
 
-    @Autowired
-    private ICompanyRepository companyRepository;
+    private final ICompanyRepository companyRepository;
+
+    private final IAffiliateRepository affiliateRepository;
 
     private ModelMapper modelMapper = new ModelMapper();
+
+    @Autowired
+    public CompanyServiceImpl(ICompanyRepository companyRepository, IAffiliateRepository affiliateRepository) {
+        super();
+        this.companyRepository = companyRepository;
+        this.affiliateRepository = affiliateRepository;
+    }
 
     @Override
     public CompanyDto save(@Valid CompanyDto companyDto) {
@@ -29,7 +39,7 @@ public class CompanyServiceImpl implements ICompanyService {
     }
 
     @Override
-    public CompanyDto updateCompany(Long companyId, @Valid CompanyDto companyDetails) throws ResourceNotFoundException {
+    public CompanyDto update(Long companyId, @Valid CompanyDto companyDetails) throws ResourceNotFoundException {
         Company company = companyRepository.findById(companyId)
                 .orElseThrow(() -> new ResourceNotFoundException("Company not found on :: " + companyId));
         company.setName(companyDetails.getName());
@@ -47,9 +57,12 @@ public class CompanyServiceImpl implements ICompanyService {
     }
 
     @Override
-    public void deleteById(Long companyId) throws ResourceNotFoundException {
+    public void deleteById(Long companyId) throws ResourceNotFoundException, MethodNotAllowedException {
         if (!companyRepository.existsById(companyId)) {
             throw new ResourceNotFoundException("Company not found on :: " + companyId);
+        }
+        if (affiliateRepository.existsByCompanyId(companyId)) {
+            throw new MethodNotAllowedException("Affiliate associated on :: " + companyId);
         }
         companyRepository.deleteById(companyId);
     }

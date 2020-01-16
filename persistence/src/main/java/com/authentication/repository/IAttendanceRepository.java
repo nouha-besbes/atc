@@ -8,4 +8,6 @@ public interface IAttendanceRepository extends IBaseRepository<Attendance, Long>
 
     List<Attendance> findAttendanceByUserId(Long userId);
 
+    boolean existsByUserId(Long userId);
+
 }
