@@ -9,7 +9,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
-           docker run --network container:act appropriate/curl -s --retry 10 --retry-connrefused http://localhost:8081/
+    - uses : actions/checkout@v1
+    - name : Build the stack
+    - run  : docker-compose up -d
+    - name : Test App
+    - run  : docker run --network container:act appropriate/curl -s --retry 10 --retry-connrefused http://localhost:8081/
+    - name : Build the Docker image
+    - run  : docker build . --file Dockerfile --tag my-image-name:$(date +%s)
