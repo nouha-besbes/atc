@@ -7,6 +7,8 @@ import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.authentication.model.Attendance;
@@ -69,15 +71,12 @@ public class AttendanceServiceImpl implements IAttendanceService {
         if (!attendanceRepository.existsById(attendanceId)) {
             throw new ResourceNotFoundException("Attendance not found on :: " + attendanceId);
         }
-        if (userRepository.existsByAttendanceId(attendanceId)) {
-            throw new MethodNotAllowedException("User associated on :: " + attendanceId);
-        }
         attendanceRepository.deleteById(attendanceId);
     }
 
     @Override
-    public List<AttendanceDto> findAll() {
-        List<Attendance> attendances = attendanceRepository.findAll();
+    public List<AttendanceDto> findAll(Pageable pageable) {
+        Page<Attendance> attendances = attendanceRepository.findAll(pageable);
         return attendances.stream().map(attendence -> modelMapper.map(attendence, AttendanceDto.class))
                 .collect(Collectors.toList());
     }

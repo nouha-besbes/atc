@@ -32,4 +32,7 @@ public class UserDto {
     @NotBlank(message = "password is required")
     private String password;
 
+    @NotBlank(message = "user is required")
+    private UserDto user;
+
 }

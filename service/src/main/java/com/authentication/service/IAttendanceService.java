@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.data.domain.Pageable;
+
 import com.authentication.service.dto.AttendanceDto;
 import com.authentication.service.exception.MethodNotAllowedException;
 import com.authentication.service.exception.ResourceNotFoundException;
@@ -18,7 +20,7 @@ public interface IAttendanceService {
 
     void deleteById(Long attendenceId) throws ResourceNotFoundException, MethodNotAllowedException;
 
-    List<AttendanceDto> findAll();
+    List<AttendanceDto> findAll(Pageable pageable);
 
     List<AttendanceDto> findByUserId(Long userId);
 
