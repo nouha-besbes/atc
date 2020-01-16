@@ -1,0 +1,21 @@
+version: "3"
+services:
+  employee-jdbc:
+    image: acm-jdbc
+    ports:
+      - "8080:8080"
+    networks:
+      - acm-mysql
+    depends_on:
+      - mysqldb
+ 
+  mysqldb:
+    image: mysql:8
+    networks:
+      - acm-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=db_users  
+
+networks:
+  employee-mysql: 
