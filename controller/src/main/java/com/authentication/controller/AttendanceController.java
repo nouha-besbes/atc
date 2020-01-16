@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,8 +56,8 @@ public class AttendanceController {
     }
 
     @GetMapping("/attendances")
-    public List<AttendanceDto> getAllAttendances() {
-        return attendanceService.findAll();
+    public List<AttendanceDto> getAllAttendances(@PathVariable(value = "pageable") Pageable pageable) {
+        return attendanceService.findAll(pageable);
     }
 
     @GetMapping("/attendances/User/")

@@ -81,7 +81,7 @@ public class AffiliateServiceImpl implements IAffiliateService {
         if (!affiliateRepository.existsById(affiliateId)) {
             throw new ResourceNotFoundException("Affiliate not found on :: " + affiliateId);
         }
-        if (deviceRepository.existsByAffiliateId(affiliateId) || userRepository.existsById(affiliateId)) {
+        if (deviceRepository.existsByAffiliateId(affiliateId) || userRepository.existsByAffiliateId(affiliateId)) {
             throw new MethodNotAllowedException("Device or user associated on :: " + affiliateId);
         }
         affiliateRepository.deleteById(affiliateId);
