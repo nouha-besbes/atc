@@ -1,5 +1,6 @@
 package com.authentication.controller;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,7 +8,9 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,11 +19,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.authentication.controller.utils.ApiPageable;
 import com.authentication.service.IAttendanceService;
 import com.authentication.service.dto.AttendanceDto;
+import com.authentication.service.dto.UserAttendanceDateDto;
 import com.authentication.service.exception.ResourceNotFoundException;
+
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -55,14 +63,32 @@ public class AttendanceController {
         return response;
     }
 
+    @ApiPageable
     @GetMapping("/attendances")
-    public List<AttendanceDto> getAllAttendances(@PathVariable(value = "pageable") Pageable pageable) {
+    public Page<AttendanceDto> getAllAttendances(@ApiIgnore Pageable pageable) {
         return attendanceService.findAll(pageable);
     }
 
+    @ApiPageable
     @GetMapping("/attendances/User/")
-    public List<AttendanceDto> getAttendancesByUserId(@PathVariable(value = "id") Long userId) {
-        return attendanceService.findByUserId(userId);
+    public Page<AttendanceDto> getAttendancesByUserId(@PathVariable(value = "id") Long userId,
+            @ApiIgnore Pageable pageable) {
+        return attendanceService.findByUserId(userId, pageable);
+    }
+
+    @GetMapping("/attendances/{userIds}/{startDate}/{endDate}")
+    public List<AttendanceDto> getAttendancesByFilter(@RequestParam Long[] userIds,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
+        return attendanceService.findAttendanceByUserBetweenDates(startDate, endDate, userIds);
+    }
+
+    @GetMapping("/attendances/calculate/{userIds}/{startDate}/{endDate}")
+    public List<UserAttendanceDateDto> calculteAttendancesByFilter(@RequestParam Long[] userIds,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate) {
+        // 2020-01-15T20:49:53.067Z
+        return attendanceService.calculateAttendanceByUserBetweenDates(startDate, endDate, userIds);
     }
 
 }

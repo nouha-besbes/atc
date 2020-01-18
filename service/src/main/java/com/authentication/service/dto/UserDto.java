@@ -32,7 +32,7 @@ public class UserDto {
     @NotBlank(message = "password is required")
     private String password;
 
-    @NotBlank(message = "user is required")
-    private UserDto user;
+    @NotBlank(message = "affiliate is required")
+    private AffiliateDto affiliate;
 
 }

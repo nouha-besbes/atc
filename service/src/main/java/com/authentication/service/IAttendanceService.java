@@ -1,12 +1,15 @@
 package com.authentication.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import com.authentication.service.dto.AttendanceDto;
+import com.authentication.service.dto.UserAttendanceDateDto;
 import com.authentication.service.exception.MethodNotAllowedException;
 import com.authentication.service.exception.ResourceNotFoundException;
 
@@ -20,8 +23,12 @@ public interface IAttendanceService {
 
     void deleteById(Long attendenceId) throws ResourceNotFoundException, MethodNotAllowedException;
 
-    List<AttendanceDto> findAll(Pageable pageable);
+    Page<AttendanceDto> findAll(Pageable pageable);
 
-    List<AttendanceDto> findByUserId(Long userId);
+    Page<AttendanceDto> findByUserId(Long userId, Pageable pageable);
+
+    List<UserAttendanceDateDto> calculateAttendanceByUserBetweenDates(Date startDate, Date endDate, Long[] userIds);
+
+    List<AttendanceDto> findAttendanceByUserBetweenDates(Date startDate, Date endDate, Long[] userIds);
 
 }
