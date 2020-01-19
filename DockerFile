@@ -1,6 +1,5 @@
-From openjdk:8
-copy ./target/controller-0.0.1-SNAPSHOT.jar controller-0.0.1-SNAPSHOT.jar
-CMD ["java","-jar","controller-0.0.1-SNAPSHOT.jar"]
+FROM anapsix/alpine-java:8
 
+ENTRYPOINT ["java","-jar","/home/runner/work/authentication/authentication/controller/target/controller-0.0.1-SNAPSHOT.jar"]
 
 
