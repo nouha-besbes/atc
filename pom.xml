@@ -3,12 +3,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.authentication</groupId>
-	<artifactId>spring-boot-authentication</artifactId>
+	<groupId>com.atc</groupId>
+	<artifactId>spring-boot-atc</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>spring-boot-authentication</name>
+	<name>spring-boot-atc</name>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -67,9 +67,7 @@
 		</repository>
 	</repositories>
 
-
-
-	<description>Authentication</description>
+	<description>ATC</description>
 	<modules>
 		<module>controller</module>
 		<module>persistence</module>

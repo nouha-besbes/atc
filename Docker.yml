@@ -15,7 +15,7 @@ services:
       - acm-mysql
     environment:
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=db_users  
+      - MYSQL_DATABASE=db_acm
 
 networks:
   employee-mysql: 
