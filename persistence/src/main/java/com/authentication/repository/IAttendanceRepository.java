@@ -21,11 +21,11 @@ public interface IAttendanceRepository extends IBaseRepository<Attendance, Long>
     List<Attendance> findAttendanceByUserBetweenDates(@Param("usersId") Long[] usersId,
             @Param("startDate") Date startDate, @Param("endDate") Date endDate);
 
-    @Query("Select new com.authentication.dto.UserAttendanceDto (a.user, CAST(a.date AS date))From Attendance a where a.isDeleted=0 and a.user.id in :usersId and CAST(a.date AS date) in :dates group by a.user.id, CAST(a.date AS date)")
+    @Query("Select new com.authentication.dto.UserAttendanceDto (a.user, CAST(a.date AS date))From Attendance a where a.isDeleted=0 and a.user.id in :usersId and CAST(a.date AS date) in :dates group by a.user.id, CAST(a.date AS date) order by a.date ASC")
     List<UserAttendanceDto> findAttendanceGroupedByUserAndDate(@Param("usersId") Long[] userIds,
             @Param("dates") List<Date> dates);
 
-    @Query("From Attendance a where a.isDeleted=0 and CAST(a.date AS date)= :date and a.user.id = :id")
+    @Query("From Attendance a where a.isDeleted=0 and CAST(a.date AS date)= :date and a.user.id = :id order by a.date ASC")
     List<Attendance> findAttendanceByUserIdAndDate(@Param("id") Long id, @Param("date") Date date);
 
 }

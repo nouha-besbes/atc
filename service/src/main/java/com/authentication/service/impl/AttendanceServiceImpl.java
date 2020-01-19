@@ -113,8 +113,36 @@ public class AttendanceServiceImpl implements IAttendanceService {
         usersAttendance.forEach(userDate -> userDate.setAttendances(
                 attendanceRepository.findAttendanceByUserIdAndDate(userDate.getUser().getId(), userDate.getDate())));
 
-        return usersAttendance.stream().map(attendance -> modelMapper.map(attendance, UserAttendanceDateDto.class))
+        calculateWorkedTimeInEveryDayForEachUser(usersAttendance);
+
+        List<UserAttendanceDateDto> userAttendancesDate = usersAttendance.stream()
+                .map(attendance -> modelMapper.map(attendance, UserAttendanceDateDto.class))
                 .collect(Collectors.toList());
+
+        return userAttendancesDate;
+    }
+
+    private void calculateWorkedTimeInEveryDayForEachUser(List<UserAttendanceDto> usersAttendance) {
+        usersAttendance.forEach(userAttendance -> {
+            int numberOfAttendanceToCalculate = userAttendance.getAttendances().size();
+            // Calculate only pair attendance
+            if (numberOfAttendanceToCalculate % 2 != 0 && numberOfAttendanceToCalculate > 0) {
+                numberOfAttendanceToCalculate--;
+            }
+
+            calculateWorkekTimeByUserInOneDay(userAttendance, numberOfAttendanceToCalculate);
+        });
+    }
+
+    private void calculateWorkekTimeByUserInOneDay(UserAttendanceDto userAttendance,
+            int numberOfAttendanceToCalculate) {
+        for (int i = 0; i < numberOfAttendanceToCalculate; i++) {
+            Date firstDate = userAttendance.getAttendances().get(i).getDate();
+            Date secondDate = userAttendance.getAttendances().get(i + 1).getDate();
+            long diffInMillies = Math.abs(secondDate.getTime() - firstDate.getTime());
+            userAttendance.setWorkedTime(userAttendance.getWorkedTime() + diffInMillies);
+            i++;
+        }
     }
 
 }

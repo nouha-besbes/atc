@@ -29,6 +29,8 @@ public class UserAttendanceDto {
 
     private List<Attendance> attendances;
 
+    private long workedTime;
+
     public UserAttendanceDto(User user, Date date) {
         super();
         this.user = user;
