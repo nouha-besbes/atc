@@ -8,7 +8,7 @@
 
 **2. Create Mysql database**
 ```bash
-create database db_users
+create database db_atc
 ```
 
 **3. Change mysql username and password as per your installation**
@@ -21,7 +21,7 @@ create database db_users
 
 ```bash
 mvn package
-java -jar target/spring-boot-rest-api-tutorial-0.0.1-SNAPSHOT.jar
+java -jar target/controller-0.0.1-SNAPSHOT.jar
 
 ```
 
