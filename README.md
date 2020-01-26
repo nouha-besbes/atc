@@ -1,5 +1,5 @@
 
-# atc
+# Attendance time clock
 
 ## Steps to Setup
 
